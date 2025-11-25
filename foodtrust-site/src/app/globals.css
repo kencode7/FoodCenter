@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  /* Nibia brand palette — light theme */
+  --background: #F8F3E7; /* cream */
+  --foreground: #062C2B; /* deep teal */
+  --card: #FCF8EE;
+  --card-foreground: #062C2B;
+  --popover: #FCF8EE;
+  --popover-foreground: #062C2B;
+  --primary: #CDE44E; /* lime accent for CTAs */
+  --primary-foreground: #062C2B;
+  --secondary: #EDE6D6;
+  --secondary-foreground: #062C2B;
+  --muted: #EEE8DA;
+  --muted-foreground: #4B5E5A; /* muted teal */
+  --accent: #062C2B; /* deep teal accents */
+  --accent-foreground: #FCF8EE;
+  --destructive: #B33A2E;
+  --border: #E3DBC9;
+  --input: #E3DBC9;
+  --ring: #93C16E;
+  --chart-1: #3B7A57;
+  --chart-2: #CDE44E;
+  --chart-3: #1F4C46;
+  --chart-4: #FFE39A;
+  --chart-5: #8FB867;
+  --sidebar: #FCF8EE;
+  --sidebar-foreground: #062C2B;
+  --sidebar-primary: #CDE44E;
+  --sidebar-primary-foreground: #062C2B;
+  --sidebar-accent: #EDE6D6;
+  --sidebar-accent-foreground: #062C2B;
+  --sidebar-border: #E3DBC9;
+  --sidebar-ring: #93C16E;
+}
+
+.dark {
+  /* Nibia brand palette — dark theme */
+  --background: #062C2B; /* deep teal */
+  --foreground: #FCF8EE; /* cream */
+  --card: #0E3B39;
+  --card-foreground: #FCF8EE;
+  --popover: #0E3B39;
+  --popover-foreground: #FCF8EE;
+  --primary: #CDE44E; /* lime for CTAs */
+  --primary-foreground: #062C2B;
+  --secondary: #0A3432;
+  --secondary-foreground: #FCF8EE;
+  --muted: #0A3432;
+  --muted-foreground: #9BB8B3;
+  --accent: #FCF8EE;
+  --accent-foreground: #062C2B;
+  --destructive: #CF4B41;
+  --border: #FCF8EE1A; /* 10% */
+  --input: #FCF8EE26; /* 15% */
+  --ring: #93C16E;
+  --chart-1: #CDE44E;
+  --chart-2: #64A68A;
+  --chart-3: #8FB867;
+  --chart-4: #FFE39A;
+  --chart-5: #2A5B55;
+  --sidebar: #0E3B39;
+  --sidebar-foreground: #FCF8EE;
+  --sidebar-primary: #CDE44E;
+  --sidebar-primary-foreground: #062C2B;
+  --sidebar-accent: #0A3432;
+  --sidebar-accent-foreground: #FCF8EE;
+  --sidebar-border: #FCF8EE1A;
+  --sidebar-ring: #93C16E;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
