@@ -90,3 +90,39 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Deploy on Netlify
+
+If you see `404 page not found` on Netlify, it usually means Netlify isn’t handling Next.js routes. Add the Netlify Next.js plugin and ensure the correct publish directory:
+
+- Ensure `netlify.toml` exists at the project root with:
+
+```
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+```
+
+- In Netlify UI:
+  - Set `Base directory` to the repo folder (if using a monorepo) that contains this project.
+  - Set `Build command` to `npm run build`.
+  - Set `Publish directory` to `.next`.
+
+- Install the plugin locally if using `netlify build`:
+
+```
+npm i -D @netlify/plugin-nextjs
+```
+
+- Add any required environment variables (like `NEXT_PUBLIC_APPWRITE_*`) in Netlify Site settings → Environment variables.
+
+Notes:
+- You do NOT need `_redirects` for Next.js when using `@netlify/plugin-nextjs`; the plugin handles SSR, dynamic routes, and rewrites.
+- If deploying from a subdirectory, you can also set `base = "<your-subdir>"` in `netlify.toml` and make `publish` relative to that base.
