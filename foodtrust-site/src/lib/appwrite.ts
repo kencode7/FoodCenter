@@ -55,7 +55,7 @@ export async function getProductByCode(code: string) {
     };
   }
   const databases = new Databases(client);
-  const res = await databases.listDocuments(databaseId, productsCollectionId, [Query.equal("code", code)]);
+  const res = await databases.listDocuments(databaseId, productsCollectionId, [Query.equal("code", [code])]);
   const product = res.documents[0];
   if (!product) return { ok: false };
   return { ok: true, product };
@@ -77,9 +77,18 @@ export async function listPosts({ page = 1, pageSize = 5 }: { page?: number; pag
     ];
     return { ok: true, total, posts: demo.slice((page - 1) * pageSize, page * pageSize) };
   }
-  const databases = new Databases(client);
-  const res = await databases.listDocuments(databaseId, postsCollectionId, [Query.orderDesc("$createdAt"), Query.limit(pageSize), Query.offset((page - 1) * pageSize)]);
-  return { ok: true, total: res.total, posts: res.documents };
+  try {
+    const databases = new Databases(client);
+    const res = await databases.listDocuments(
+      databaseId,
+      postsCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(pageSize), Query.offset((page - 1) * pageSize)]
+    );
+    return { ok: true, total: res.total, posts: res.documents };
+  } catch (err) {
+    console.error("listPosts error:", err);
+    return { ok: false, total: 0, posts: [] };
+  }
 }
 
 export async function getPostBySlug(slug: string) {
@@ -88,9 +97,36 @@ export async function getPostBySlug(slug: string) {
     const post = { slug, title: slug.replace(/-/g, " "), content: "# Demo\nContent for " + slug };
     return { ok: true, post };
   }
-  const databases = new Databases(client);
-  const res = await databases.listDocuments(databaseId, postsCollectionId, [Query.equal("slug", slug), Query.limit(1)]);
-  const post = res.documents[0];
-  if (!post) return { ok: false };
-  return { ok: true, post };
+  const cleanSlug = String(slug ?? "").trim();
+  if (!cleanSlug) {
+    return { ok: false };
+  }
+  try {
+    const databases = new Databases(client);
+    const res = await databases.listDocuments(databaseId, postsCollectionId, [Query.equal("slug", [cleanSlug]), Query.limit(1)]);
+    const post = res.documents[0];
+    if (!post) return { ok: false };
+    return { ok: true, post };
+  } catch (err) {
+    console.error("getPostBySlug error:", err);
+    return { ok: false };
+  }
+}
+
+export async function getPostById(id: string) {
+  const client = getClient();
+  if (!client || !databaseId || !postsCollectionId) {
+    return { ok: false };
+  }
+  const cleanId = String(id ?? "").trim();
+  if (!cleanId) return { ok: false };
+  try {
+    const databases = new Databases(client);
+    const doc = await databases.getDocument(databaseId, postsCollectionId, cleanId);
+    if (!doc) return { ok: false };
+    return { ok: true, post: doc };
+  } catch (err) {
+    console.error("getPostById error:", err);
+    return { ok: false };
+  }
 }
